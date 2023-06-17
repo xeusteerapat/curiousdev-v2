@@ -1,5 +1,5 @@
 import type { GetStaticProps, NextPage } from 'next';
-import { getAllMdx } from '@/lib/mdx';
+import { getAllPosts } from '@/lib/mdx';
 import { MDXFrontMatter } from '@/lib/types';
 import { Page } from '@/components/Page';
 import { PostList } from '@/components/PostList';
@@ -22,13 +22,11 @@ const Posts: NextPage<PostsProps> = ({ posts }) => {
 };
 
 export const getStaticProps: GetStaticProps = async () => {
-  const mdxFiles = getAllMdx()
-    .map(post => post['frontMatter'])
-    .filter(post => post.published);
+  const posts = getAllPosts();
 
   return {
     props: {
-      posts: mdxFiles,
+      posts: posts,
     },
   };
 };

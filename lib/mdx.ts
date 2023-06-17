@@ -51,3 +51,11 @@ export const getAllMdx = () => {
       new Date(a.frontMatter.date).getTime()
   );
 };
+
+export const getAllPosts = () => {
+  const mdxFiles = getAllMdx()
+    .map(post => post['frontMatter'])
+    .filter(post => post.published);
+
+  return mdxFiles;
+};
