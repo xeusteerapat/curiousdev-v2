@@ -4,7 +4,7 @@ const siteConfig: SiteConfig = {
   siteUrl: 'https://curiousdev.in.th',
   siteName: 'Teerapat Prommarak',
   siteDescription:
-    'Full-stack web developer who always curiosity and learn new things.',
+    'A software engineer who always curiosity and learn new things.',
   siteThumbnail: '/og-image.png',
   nav: [
     { label: 'Posts', href: '/posts' },

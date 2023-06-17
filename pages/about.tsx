@@ -1,38 +1,29 @@
-import type { NextPage } from "next";
-import { Page } from "@/components/Page";
-import { Prose } from "@/components/Prose";
+import type { NextPage } from 'next';
+import { Page } from '@/components/Page';
+import { Prose } from '@/components/Prose';
 
 const About: NextPage = () => {
   return (
     <>
       <Page
-        title="About"
-        description="This is a brief description about the about page."
+        title='About'
+        description='A software engineer who always curiosity and learn new things.'
       >
         <Prose>
+          <p>💻 Node.js, Typescript, React enthusiasm. </p>
           <p>
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsam sed
-            aliquam tempora nihil magni natus mollitia. Doloribus,
-            exercitationem iusto odio asperiores dolor, alias excepturi maxime
-            distinctio quod eum saepe eos!
+            🌍 I&rsquo;m based in Bangkok, See my portfolio at{' '}
+            <a
+              href='https://github.com/xeusteerapat'
+              target='_blank'
+              rel='noopener noreferrer'
+            >
+              GitHub
+            </a>
           </p>
           <p>
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsam sed
-            aliquam tempora nihil magni natus mollitia. Doloribus,
-            exercitationem iusto odio asperiores dolor, alias excepturi maxime
-            distinctio quod eum saepe eos!
-          </p>
-          <p>
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsam sed
-            aliquam tempora nihil magni natus mollitia. Doloribus,
-            exercitationem iusto odio asperiores dolor, alias excepturi maxime
-            distinctio quod eum saepe eos!
-          </p>
-          <p>
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsam sed
-            aliquam tempora nihil magni natus mollitia. Doloribus,
-            exercitationem iusto odio asperiores dolor, alias excepturi maxime
-            distinctio quod eum saepe eos!
+            🧠 I&rsquo;m also learning k8s, Go, Microservices, Distributed
+            System, Software Architecture
           </p>
         </Prose>
       </Page>
