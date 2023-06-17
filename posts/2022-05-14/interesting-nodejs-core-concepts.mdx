@@ -1,0 +1,207 @@
+---
+layout: '../../../layouts/BlogPost.astro'
+title: 'Interesting Node.js Core Concepts'
+description: 'readmore'
+date: '2022-05-14'
+tags: []
+---
+
+I have been using Node.js for around 2-3 years. Most of the time is about building REST API or GraphQL API. Every project uses Node.js libraries a lot to help the team bootstrapping the project easily and quickly. Sometimes I feel like I jumped into building the API too quickly, instead of understanding its internal core concept first. Today, I just finished the **[Advanced Node.js](https://app.pluralsight.com/library/courses/nodejs-advanced/table-of-contents)** from **[Pluralsight](https://www.pluralsight.com/)** taught by **[Samer Buna](https://twitter.com/samerbuna)** and I found many interesting topics I would like to share to other people. I think it would be great if you learn these concept of Node.js before building the REST API from other courses or tutorials. I also recommend you check out this course (no affiliate)
+
+## Node.js and Javascript Engine
+
+As you already known, Node.js runs on the V8 engine give us an ability to execute Javascript code outside the browser. But actually, V8 is just a one options from many. Node.js also can use other Javascript engine as a VM like **[node-chakracore](https://github.com/nodejs/node-chakracore)**. Unfortunately, this project seems no longer active anymore.
+
+you can use command `node --v8-options` to list the options features from V8 engine. Here I list all `--harmony` flag, which means you need to provide `--harmony` flag in order to get these features work.
+
+![v8 options](v8-options.png)
+
+## REPL
+
+You might have played around with the REPL after you installed Node.js on your machine. It give us a convenience way to interact with Javascript in the terminal. Here are some useful tips when you use the REPL in Node.js
+
+### Auto-Complete
+
+You can double press `Tab` button to list all global objects in Node.js
+
+![auto complete](auto-complete.png)
+
+It also works on any object in Node.js as well, such as `http.` and double press `Tab`
+
+```shell
+> http.
+http.__proto__             http.constructor           http.hasOwnProperty        http.isPrototypeOf
+http.propertyIsEnumerable  http.toLocaleString        http.toString              http.valueOf
+
+http.Agent                 http.ClientRequest         http.IncomingMessage       http.METHODS
+http.OutgoingMessage       http.STATUS_CODES          http.Server                http.ServerResponse
+http._connectionListener   http.createServer          http.get                   http.globalAgent
+http.maxHeaderSize         http.request               http.validateHeaderName    http.validateHeaderValue
+```
+
+You can access to the last evaluated value by using the `_` variable and also can assign to another variable too.
+
+```javascript
+> Math.random()
+0.7172339982201723
+> _
+0.7172339982201723
+> let lastVal = _
+undefined
+> lastVal
+0.7172339982201723
+```
+
+The special commands in Node.js REPL is `.` (dot), if you type command `.` and press double `Tab`
+
+```shell
+> .
+break   clear   editor  exit    help    load    save
+```
+
+If you type command `.help` and enter it will list all commands above with its description
+
+```shell
+> .help
+.break    Sometimes you get stuck, this gets you out
+.clear    Alias for .break
+.editor   Enter editor mode
+.exit     Exit the REPL
+.help     Print this help message
+.load     Load JS from a file into the REPL session
+.save     Save all evaluated commands in this REPL session to a file
+
+Press Ctrl+C to abort current expression, Ctrl+D to exit the REPL
+```
+
+You can use `.editor` to enter the `editor` mode that give you the multi-line editor in the REPL and press `ctrl+D` when you done. You can learn more REPL in official documentation.
+
+```javascript
+> .editor
+// Entering editor mode (Ctrl+D to finish, Ctrl+C to cancel)
+const add = (x, y) => {
+  return x + y;
+};
+```
+
+![repl editor](dot-editor.png)
+
+You can load the Javascript file into the REPL using `.load` command
+
+![repl load](repl-load.png)
+
+## Global Object, Process, and Buffer
+
+You can use `global` objects in Node.js without using the `require` keyword. One of the most important global object is `process` so, let's talk about it
+
+### Process
+
+The `process` object provides information about, and control over, the current Node.js process application and its environment. You most you use in Node.js app is might be `process.env` to manage user environment. Here are some other useful properties of `process` object
+
+You can use `process.versions` to list all version numbers and its dependencies
+
+```javascript
+> process.versions
+{
+  node: '18.12.1',
+  v8: '10.2.154.15-node.12',
+  uv: '1.43.0',
+  zlib: '1.2.11',
+  brotli: '1.0.9',
+  ares: '1.18.1',
+  modules: '108',
+  nghttp2: '1.47.0',
+  napi: '8',
+  llhttp: '6.0.10',
+  openssl: '3.0.7+quic',
+  cldr: '41.0',
+  icu: '71.1',
+  tz: '2022b',
+  unicode: '14.0',
+  ngtcp2: '0.8.1',
+  nghttp3: '0.7.0'
+}
+```
+
+You can use `process.release` to get the label of your Node.js version in your machine.
+
+```javascript
+> process.release
+{
+  name: 'node',
+  lts: 'Hydrogen',
+  sourceUrl: 'https://nodejs.org/download/release/v18.12.1/node-v18.12.1.tar.gz',
+  headersUrl: 'https://nodejs.org/download/release/v18.12.1/node-v18.12.1-headers.tar.gz'
+}
+```
+
+The process object is an instance of the `Event Emitter` so you can listen to specific events on the process
+
+```javascript
+// process object
+process.on('exit', code => {
+  // do one final synchronouse operation
+  // before the node process terminates
+
+  console.log(`About to exit with code ${code}`);
+});
+
+process.on('uncaughtException', err => {
+  // something went wrong and unhandle
+  // clean up and exit
+
+  console.error(err);
+  process.exit(1);
+});
+
+// keep the event loop running
+process.stdin.resume();
+
+// trigger a ReferenceError exception
+notExistFunc();
+```
+
+TODO Process จะกลับมาอธิบายใหม่
+
+![process](process-exit.png)
+
+### Buffer
+
+The `Buffer` class is heavily use in Node.js in order to work with the binary streams of data. When converting between `Buffers` and strings, a character encoding may be specified. If no character encoding is specified, `UTF-8` will be used as the default. The Buffer is a lower-level data structure to represent a sequence of binary data that cannot be resized when Buffer is allowcate.
+
+```javascript
+const { Buffer } = require('buffer');
+```
+
+TODO Buffer จะกลับมาอธิบายใหม่ with String decoder
+
+## Require Function
+
+`require` is a **must** understanding how it works in Node.js module. To execute the `require` call, Node.js goes through the following sequence of steps:
+
+1. Resolving: Find the absolute file path of a module.
+2. Loading: Determined by the content of the file at the resolved path.
+3. Wrapping: Gives every module in its private scope, and makes `require` local to every module.
+4. Evaluating: Excute the code.
+5. Caching: When `require` the same module, we don't need to go over all steps again.
+
+Here are what you will get when `console.log(module);` in Javascript file
+
+```javascript
+Module {
+  id: '.',
+  path: '/Users/teerapatprommarak/Project/nodejs/for-node-blog',
+  exports: {},
+  filename: '/Users/teerapatprommarak/Project/nodejs/for-node-blog/module.js',
+  loaded: false,
+  children: [],
+  paths: [
+    '/Users/teerapatprommarak/Project/nodejs/for-node-blog/node_modules',
+    '/Users/teerapatprommarak/Project/nodejs/node_modules',
+    '/Users/teerapatprommarak/Project/node_modules',
+    '/Users/teerapatprommarak/node_modules',
+    '/Users/node_modules',
+    '/node_modules'
+  ]
+}
+```
