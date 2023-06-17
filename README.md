@@ -1,4 +1,4 @@
-# Hi
+# Curiousdev-V2
 
 I've used the awesome blog template from [nextjs-mdx-blog-theme](https://github.com/alexcarpenter/nextjs-mdx-blog-theme)
 
