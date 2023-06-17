@@ -10,6 +10,7 @@ export type SiteConfig = {
     twitter?: string;
     linkedin?: string;
     instagram?: string;
+    email?: string;
   };
 };
 

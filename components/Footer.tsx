@@ -1,4 +1,4 @@
-import { Twitter, Instagram, GitHub, Linkedin } from 'react-feather';
+import { Twitter, Instagram, GitHub, Linkedin, Mail } from 'react-feather';
 import siteConfig from '@/data/siteConfig';
 import { cx } from '@/lib/utils';
 import { ThemeSelect } from '@/components/ThemeSelect';
@@ -10,6 +10,7 @@ const SOCIAL_ICONS: { [key: string]: React.ReactNode } = {
   instagram: <Instagram {...iconProps} />,
   github: <GitHub {...iconProps} />,
   linkedin: <Linkedin {...iconProps} />,
+  email: <Mail {...iconProps} />,
 };
 
 export const Footer: React.FC = () => {

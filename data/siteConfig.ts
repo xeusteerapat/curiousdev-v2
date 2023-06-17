@@ -14,6 +14,7 @@ const siteConfig: SiteConfig = {
     github: 'https://github.com/xeusteerapat',
     twitter: 'https://twitter.com/xeusteerapat',
     linkedin: 'https://www.linkedin.com/in/teerapat-prommarak',
+    email: 'mailto:xeus085@gmail.com',
   },
 };
 export default siteConfig;
