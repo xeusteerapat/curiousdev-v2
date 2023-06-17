@@ -22,7 +22,9 @@ const Posts: NextPage<PostsProps> = ({ posts }) => {
 };
 
 export const getStaticProps: GetStaticProps = async () => {
-  const mdxFiles = getAllMdx().map(post => post['frontMatter']);
+  const mdxFiles = getAllMdx()
+    .map(post => post['frontMatter'])
+    .filter(post => post.published);
 
   return {
     props: {

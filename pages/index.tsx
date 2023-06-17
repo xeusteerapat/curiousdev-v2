@@ -17,7 +17,16 @@ const Home: NextPage<HomeProps> = ({ posts }) => {
         title='Hello, World 👋'
         description={
           <>
-            <p>Hi, My name is Teerapat</p>
+            <p>
+              My name is Teerapat, a skilled software engineer proficient in
+              Node.js, React.js, JavaScript, and TypeScript. I have a passion
+              for solving complex problems and am constantly expanding my
+              knowledge of software design and architecture. Join me on this
+              journey as I share the experiences on{' '}
+              <span>
+                <Link href='/posts'>my blog</Link>
+              </span>
+            </p>
           </>
         }
       >
@@ -41,7 +50,9 @@ const Home: NextPage<HomeProps> = ({ posts }) => {
 };
 
 export const getStaticProps: GetStaticProps = async () => {
-  const mdxFiles = getAllMdx().map(post => post['frontMatter']);
+  const mdxFiles = getAllMdx()
+    .map(post => post['frontMatter'])
+    .filter(post => post.published);
   return {
     props: {
       posts: mdxFiles.slice(0, 5),
